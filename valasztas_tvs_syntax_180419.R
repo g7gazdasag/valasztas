@@ -4,6 +4,7 @@
 library(readxl)
 library(MASS)
 library(betas)
+library(robustbase)
 
 
 df <- read_excel("valasztas_tvs_input_180419.xlsx", sheet = "data_readin")
