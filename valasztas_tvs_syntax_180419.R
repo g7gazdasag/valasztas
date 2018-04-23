@@ -1,12 +1,11 @@
 #FIDESZ LISTÁS EREDMÉNYÉNEK TÖBBVÁLTOZÓS ELEMZÉSE JÁRÁSI ADATOK ALAPJÁN
 #Hajdu Miklós, G7.hu
+require(readxl)
+require(MASS)
+require(betas)
 
-library(readxl)
-library(MASS)
-library(betas)
-
-
-df <- read_excel("valasztas_tvs_input_180419.xlsx", sheet = "data_readin")
+df <- read_excel("data-raw/valasztas_tvs_input_180419.xlsx", 
+                 sheet = "data_readin")
 
 #Budapestet kihagyjuk - feltételezésünk szerint itt más összefüggések várhatók, mint országosan
 df <- df[ which(substr(df$jnev,1,8)!='Budapest'), ]
@@ -16,6 +15,6 @@ df$regio.f <- factor(df$regio)
 is.factor(df$regio.f)
 
 #Robust regression
-model <- lmRob(fidesz_arany ~ isk + jov + vagyon + vallalk + mnrata + kor + kozmunk + regio.f, data = df)
+model <- robust::lmRob(fidesz_arany ~ isk + jov + vagyon + vallalk + mnrata + kor + kozmunk + regio.f, data = df)
 betas.lmr(model)
 summary(model)
